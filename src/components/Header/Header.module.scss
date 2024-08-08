@@ -1,0 +1,10 @@
+@import '/src/shared/styles/variables.scss';
+
+.header {
+  display: flex;
+  align-items: center;
+  height: 80px;
+  width: 100%;
+  background-color: $dark-blue;
+  padding-left: 32px;
+}
