@@ -1,0 +1,9 @@
+@import '/src/shared/styles/variables.scss';
+
+.table {
+	box-shadow: none !important;
+}
+
+.selected-row {
+	background-color: #2196f30a;
+}
