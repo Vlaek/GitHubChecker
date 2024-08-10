@@ -1,13 +1,13 @@
-import { CircularProgress } from '@mui/material'
 import { FC } from 'react'
+import { CircularProgress } from '@mui/material'
 import styles from './Loader.module.scss'
 
-interface ILoadingStateProps {
+interface ILoaderStateProps {
 	loading: boolean
 	error: string | null
 }
 
-const LoadingState: FC<ILoadingStateProps> = props => {
+const Loader: FC<ILoaderStateProps> = props => {
 	const { loading, error } = props
 
 	if (loading) {
@@ -29,4 +29,4 @@ const LoadingState: FC<ILoadingStateProps> = props => {
 	return null
 }
 
-export { LoadingState }
+export { Loader }

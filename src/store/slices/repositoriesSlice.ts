@@ -18,7 +18,7 @@ export const fetchRepositories = createAsyncThunk<
 		query: SEARCH_REPOSITORIES,
 		variables: { query, first, after },
 	})
-
+	console.log(query)
 	return response.data.search
 })
 

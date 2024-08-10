@@ -1,10 +1,12 @@
 import { FC, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../../store/store'
-import { LoadingState } from '../Loader/Loader'
-import { PaginationControls } from '../PaginationControls/PaginationControls'
-import { RepositoryAside } from '../RepositoryAside/RepositoryAside'
-import { RepositoryTable } from '../RepositoryTable/RepositoryTable'
+import {
+	Loader,
+	PaginationControls,
+	RepositoryAside,
+	RepositoryTable,
+} from '../'
 import { IRepository } from './../../shared/types/index'
 import {
 	fetchRepositories,
@@ -32,9 +34,9 @@ const RepositoryList: FC = () => {
 			sortConfig?.field === field && sortConfig?.direction === 'asc'
 				? 'desc'
 				: 'asc'
-		setSortConfig({ field, direction })
-		setCursors([])
 		setPage(0)
+		setCursors([])
+		setSortConfig({ field, direction })
 	}
 
 	const handleChangeRowsPerPage = (
@@ -43,7 +45,6 @@ const RepositoryList: FC = () => {
 		const newPageCount = +event.target.value
 		dispatch(setPageCount(newPageCount))
 		setPage(0)
-		setSelectedRepo(null)
 		setCursors([])
 	}
 
@@ -55,7 +56,7 @@ const RepositoryList: FC = () => {
 
 	useEffect(() => {
 		setPage(0)
-		setSortConfig({ field: '', direction: 'asc' })
+		setSortConfig(null)
 		setCursors([])
 	}, [query])
 
@@ -74,13 +75,11 @@ const RepositoryList: FC = () => {
 	return (
 		<main className={styles.container}>
 			{loading || error ? (
-				<LoadingState loading={loading} error={error} />
+				<Loader loading={loading} error={error} />
 			) : (
 				<div className={styles.main}>
 					<div>
-						<h1 className={styles.main__title}>
-							Результаты поиска {cursors[page]}, {page}
-						</h1>
+						<h1 className={styles.main__title}>Результаты поиска</h1>
 						<RepositoryTable
 							selectedRepo={selectedRepo}
 							items={items}
