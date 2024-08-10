@@ -7,17 +7,12 @@ import {
 	RepositoryAside,
 	RepositoryTable,
 } from '../'
-import { IRepository } from './../../shared/types/index'
+import { IRepository, ISortConfig } from './../../shared/types/index'
 import {
 	fetchRepositories,
 	setPageCount,
 } from './../../store/slices/repositoriesSlice'
 import styles from './RepositoryList.module.scss'
-
-interface ISortConfig {
-	field: string
-	direction: 'asc' | 'desc'
-}
 
 const RepositoryList: FC = () => {
 	const [page, setPage] = useState(0)

@@ -41,3 +41,8 @@ export interface IFetchRepositoriesParams {
 	first: number
 	after?: string
 }
+
+export interface ISortConfig {
+	field: string
+	direction: 'asc' | 'desc'
+}

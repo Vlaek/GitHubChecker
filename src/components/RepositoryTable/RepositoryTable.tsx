@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { IRepository } from './../../shared/types/index'
+import { IRepository, ISortConfig } from './../../shared/types/index'
 import {
 	Table,
 	TableBody,
@@ -15,7 +15,7 @@ import styles from './RepositoryTable.module.scss'
 interface IRepositoryTable {
 	selectedRepo: IRepository | null
 	items: IRepository[]
-	sortConfig: { field: string; direction: 'asc' | 'desc' } | null
+	sortConfig: ISortConfig | null
 	onSort: (field: string) => void
 	onRowClick: (repo: IRepository) => void
 }
