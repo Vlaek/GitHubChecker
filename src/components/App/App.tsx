@@ -1,9 +1,9 @@
 import { FC } from 'react'
-import { Footer, Header, RepositoryList } from '../'
+import { Footer, Header, Main } from '../'
 import { Layout } from '../../container'
 
 const App: FC = () => {
-  return <Layout header={<Header />} main={<RepositoryList />} footer={<Footer />} />
+	return <Layout header={<Header />} main={<Main />} footer={<Footer />} />
 }
 
 export { App }

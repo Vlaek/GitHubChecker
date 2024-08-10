@@ -39,4 +39,5 @@ export interface ISearchRepositoriesResponse {
 export interface IFetchRepositoriesParams {
 	query: string
 	first: number
+	after?: string
 }

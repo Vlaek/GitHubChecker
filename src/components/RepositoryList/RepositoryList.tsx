@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../../store/store'
 import { LoadingState } from '../Loader/Loader'
@@ -12,74 +12,92 @@ import {
 } from './../../store/slices/repositoriesSlice'
 import styles from './RepositoryList.module.scss'
 
+interface ISortConfig {
+	field: string
+	direction: 'asc' | 'desc'
+}
+
 const RepositoryList: FC = () => {
 	const [page, setPage] = useState(0)
 	const [selectedRepo, setSelectedRepo] = useState<IRepository | null>(null)
-	const [sortConfig, setSortConfig] = useState<{
-		field: string
-		direction: 'asc' | 'desc'
-	}>({
-		field: '',
-		direction: 'asc',
-	})
+	const [sortConfig, setSortConfig] = useState<ISortConfig | null>(null)
+	const [cursors, setCursors] = useState<string[]>([])
 
 	const dispatch: AppDispatch = useDispatch()
-
 	const { items, loading, error, pageCount, repositoryCount, pageInfo, query } =
 		useSelector((state: RootState) => state.repositories)
 
 	const handleSort = (field: string) => {
 		const direction =
-			sortConfig.field === field && sortConfig.direction === 'asc'
+			sortConfig?.field === field && sortConfig?.direction === 'asc'
 				? 'desc'
 				: 'asc'
 		setSortConfig({ field, direction })
+		setCursors([])
+		setPage(0)
+	}
+
+	const handleChangeRowsPerPage = (
+		event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+	) => {
+		const newPageCount = +event.target.value
+		dispatch(setPageCount(newPageCount))
+		setPage(0)
+		setSelectedRepo(null)
+		setCursors([])
+	}
+
+	useEffect(() => {
+		if (pageInfo?.endCursor && !cursors.includes(pageInfo.endCursor)) {
+			setCursors(prevCursors => [...prevCursors, pageInfo?.endCursor || ''])
+		}
+	}, [page, pageInfo])
+
+	useEffect(() => {
+		setPage(0)
+		setSortConfig({ field: '', direction: 'asc' })
+		setCursors([])
+	}, [query])
+
+	useEffect(() => {
 		dispatch(
 			fetchRepositories({
-				query: `${query} sort:${sortConfig.field}-${sortConfig.direction}`,
+				query: sortConfig
+					? `${query} sort:${sortConfig.field}-${sortConfig.direction}`
+					: query,
 				first: pageCount,
+				after: page > 0 ? cursors[page - 1] : undefined,
 			}),
 		)
-	}
-
-	if (loading || error) {
-		return <LoadingState loading={loading} error={error} />
-	}
-
-	if (repositoryCount === null) {
-		return (
-			<main className={styles['empty-page']}>
-				<div className={styles['empty-page__text']}>Добро пожаловать</div>
-			</main>
-		)
-	}
+	}, [dispatch, query, sortConfig, page, pageCount, cursors])
 
 	return (
 		<main className={styles.container}>
-			<div className={styles.main}>
-				<div>
-					<h1 className={styles.main__title}>Результаты поиска</h1>
-					<RepositoryTable
-						selectedRepo={selectedRepo}
-						items={items}
-						sortConfig={sortConfig}
-						onSort={handleSort}
-						onRowClick={setSelectedRepo}
+			{loading || error ? (
+				<LoadingState loading={loading} error={error} />
+			) : (
+				<div className={styles.main}>
+					<div>
+						<h1 className={styles.main__title}>
+							Результаты поиска {cursors[page]}, {page}
+						</h1>
+						<RepositoryTable
+							selectedRepo={selectedRepo}
+							items={items}
+							sortConfig={sortConfig}
+							onSort={handleSort}
+							onRowClick={setSelectedRepo}
+						/>
+					</div>
+					<PaginationControls
+						page={page}
+						pageCount={pageCount}
+						repositoryCount={repositoryCount ?? 0}
+						onPageChange={setPage}
+						onRowsPerPageChange={handleChangeRowsPerPage}
 					/>
 				</div>
-				<PaginationControls
-					page={page}
-					pageCount={pageCount}
-					repositoryCount={repositoryCount}
-					onPageChange={setPage}
-					onRowsPerPageChange={event => {
-						dispatch(setPageCount(+event.target.value))
-						dispatch(fetchRepositories({ query, first: +event.target.value }))
-						setPage(0)
-						setSelectedRepo(null)
-					}}
-				/>
-			</div>
+			)}
 			<RepositoryAside repo={selectedRepo} />
 		</main>
 	)

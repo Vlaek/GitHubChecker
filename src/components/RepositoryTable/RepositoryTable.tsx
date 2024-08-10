@@ -15,7 +15,7 @@ import styles from './RepositoryTable.module.scss'
 interface IRepositoryTable {
 	selectedRepo: IRepository | null
 	items: IRepository[]
-	sortConfig: { field: string; direction: 'asc' | 'desc' }
+	sortConfig: { field: string; direction: 'asc' | 'desc' } | null
 	onSort: (field: string) => void
 	onRowClick: (repo: IRepository) => void
 }
@@ -32,9 +32,9 @@ const RepositoryTable: FC<IRepositoryTable> = props => {
 						<TableCell>Язык</TableCell>
 						<TableCell>
 							<TableSortLabel
-								active={sortConfig.field === 'forks'}
+								active={sortConfig?.field === 'forks'}
 								direction={
-									sortConfig.field === 'forks' ? sortConfig.direction : 'asc'
+									sortConfig?.field === 'forks' ? sortConfig?.direction : 'asc'
 								}
 								onClick={() => onSort('forks')}
 							>
@@ -43,9 +43,9 @@ const RepositoryTable: FC<IRepositoryTable> = props => {
 						</TableCell>
 						<TableCell>
 							<TableSortLabel
-								active={sortConfig.field === 'stars'}
+								active={sortConfig?.field === 'stars'}
 								direction={
-									sortConfig.field === 'stars' ? sortConfig.direction : 'asc'
+									sortConfig?.field === 'stars' ? sortConfig?.direction : 'asc'
 								}
 								onClick={() => onSort('stars')}
 							>
@@ -54,9 +54,11 @@ const RepositoryTable: FC<IRepositoryTable> = props => {
 						</TableCell>
 						<TableCell>
 							<TableSortLabel
-								active={sortConfig.field === 'updated'}
+								active={sortConfig?.field === 'updated'}
 								direction={
-									sortConfig.field === 'updated' ? sortConfig.direction : 'asc'
+									sortConfig?.field === 'updated'
+										? sortConfig?.direction
+										: 'asc'
 								}
 								onClick={() => onSort('updated')}
 							>

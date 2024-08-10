@@ -12,11 +12,11 @@ export const fetchRepositories = createAsyncThunk<
 	ISearchRepositoriesResponse,
 	IFetchRepositoriesParams
 >('repositories/fetchRepositories', async params => {
-	const { query, first } = params
+	const { query, first, after } = params
 
 	const response = await client.query({
 		query: SEARCH_REPOSITORIES,
-		variables: { query, first },
+		variables: { query, first, after },
 	})
 
 	return response.data.search
@@ -57,7 +57,6 @@ const repositoriesSlice = createSlice({
 		builder
 			.addCase(fetchRepositories.pending, state => {
 				state.loading = true
-				state.repositoryCount = 0
 				state.error = null
 			})
 			.addCase(fetchRepositories.fulfilled, (state, action) => {
