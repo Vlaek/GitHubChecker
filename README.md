@@ -83,3 +83,10 @@ src/
 - Redux Toolkit
 - graphql
 - Vite
+
+# Illustrations
+
+![MainPage](https://i.imgur.com/evtWiXk.jpeg 'MainPage')
+![Search](https://i.imgur.com/aJNimgX.jpeg 'Search')
+![SearchAside](https://i.imgur.com/zDzncLE.jpeg 'Search and Aside')
+![SearchAside2](https://i.imgur.com/S5iwhKA.jpeg 'Search and Aside 2')
