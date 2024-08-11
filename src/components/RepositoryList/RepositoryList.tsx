@@ -18,22 +18,24 @@ const RepositoryList: FC = () => {
 	const [page, setPage] = useState(0)
 	const [selectedRepo, setSelectedRepo] = useState<IRepository | null>(null)
 	const [sortConfig, setSortConfig] = useState<ISortConfig | null>(null)
-	const [cursors, setCursors] = useState<string[]>([])
+	const [cursors, setCursors] = useState<string[]>([]) // Состояние для хранения курсоров пагинации
 
-	const dispatch: AppDispatch = useDispatch()
+	const dispatch: AppDispatch = useDispatch() // Получаем функцию dispatch для отправки действий
 	const { items, loading, error, pageCount, repositoryCount, pageInfo, query } =
-		useSelector((state: RootState) => state.repositories)
+		useSelector((state: RootState) => state.repositories) // Достаем необходимые данные из состояния Redux
 
+	// Функция для обработки сортировки по заданному полю
 	const handleSort = (field: string) => {
 		const direction =
 			sortConfig?.field === field && sortConfig?.direction === 'asc'
 				? 'desc'
-				: 'asc'
+				: 'asc' // Определяем направление сортировки
 		setPage(0)
 		setCursors([])
 		setSortConfig({ field, direction })
 	}
 
+	// Функция для обработки изменения количества строк на странице
 	const handleChangeRowsPerPage = (
 		event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
 	) => {
@@ -43,18 +45,21 @@ const RepositoryList: FC = () => {
 		setCursors([])
 	}
 
+	// Эффект для обновления курсоров при изменении страницы или информации о пагинации
 	useEffect(() => {
 		if (pageInfo?.endCursor && !cursors.includes(pageInfo.endCursor)) {
 			setCursors(prevCursors => [...prevCursors, pageInfo?.endCursor || ''])
 		}
 	}, [page, pageInfo])
 
+	// Эффект для сброса страницы, сортировки и курсоров при изменении поискового запроса
 	useEffect(() => {
 		setPage(0)
 		setSortConfig(null)
 		setCursors([])
 	}, [query])
 
+	// Эффект для загрузки репозиториев при изменении различных параметров
 	useEffect(() => {
 		dispatch(
 			fetchRepositories({

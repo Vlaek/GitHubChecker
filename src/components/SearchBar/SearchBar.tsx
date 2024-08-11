@@ -8,6 +8,7 @@ import {
 } from '../../store/slices/repositoriesSlice'
 import styles from './SearchBar.module.scss'
 
+// Компонент SearchBar управляет вводом поискового запроса
 const SearchBar: FC = () => {
 	const dispatch: AppDispatch = useDispatch()
 	const pageCount = useSelector(
@@ -15,8 +16,10 @@ const SearchBar: FC = () => {
 	)
 	const [newQuery, setNewQuery] = useState('')
 
+	// Функция для обработки нажатия кнопки поиска
 	const handleSearch = () => {
 		if (newQuery.trim()) {
+			// Если запрос не пустой, запускаем поиск репозиториев
 			dispatch(
 				fetchRepositories({
 					query: newQuery,
@@ -25,6 +28,7 @@ const SearchBar: FC = () => {
 			)
 		}
 
+		// Обновляем поисковый запрос в состоянии Redux
 		dispatch(setQuery(newQuery))
 	}
 

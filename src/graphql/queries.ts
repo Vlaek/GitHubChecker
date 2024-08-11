@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client'
 
+// Запрос к Github API
 export const SEARCH_REPOSITORIES = gql`
 	query SearchRepositories($query: String!, $first: Int!, $after: String) {
 		search(query: $query, type: REPOSITORY, first: $first, after: $after) {
