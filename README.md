@@ -76,7 +76,6 @@ src/
 
 - React
 - TypeScript
-- Zustand
 - SCSS, CSS Modules
 - MUI
 - Axios
