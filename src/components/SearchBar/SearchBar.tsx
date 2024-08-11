@@ -38,9 +38,17 @@ const SearchBar: FC = () => {
 				fullWidth
 				placeholder='Введите поисковой запрос'
 				className={styles.search}
+				inputProps={{
+					sx: {
+						'&::placeholder': {
+							fontStyle: 'italic',
+						},
+					},
+				}}
 				InputProps={{
 					style: {
 						height: '42px',
+						fontWeight: 500,
 					},
 				}}
 			/>

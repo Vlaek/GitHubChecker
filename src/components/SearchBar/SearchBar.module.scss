@@ -1,23 +1,23 @@
 @import '/src/shared/styles/variables.scss';
 
 .search {
-  width: 912px !important;
-  background-color: #fff;
-  font-style: normal;
-  font-weight: bold;
-  line-height: 24px;
-  color: #000;
-  border-radius: 4px;
-  height: 42px;
+	width: 912px !important;
+	background-color: #fff;
+	font-style: normal !important;
+	font-weight: 500 !important;
+	line-height: 24px;
+	color: #000;
+	border-radius: 4px;
+	height: 42px;
 
-  &::placeholder {
-    font-style: italic;
-    color: $gray;
-    font-weight: 400;
-  }
+	&::placeholder {
+		font-style: italic;
+		color: $yellow;
+		font-weight: 400;
+	}
 }
 
 .btn {
-  height: 42px;
-  width: 105px;
+	height: 42px;
+	width: 105px;
 }
