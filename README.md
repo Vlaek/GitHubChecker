@@ -39,6 +39,39 @@
    yarn dev
    ```
 
+#
+
+```plaintext
+src/
+│
+├── components/
+│   ├── index.ts
+│   └── Component/
+│         ├── Component.tsx
+│         └── Component.module.scss
+│
+├── containers/
+│   ├── index.ts
+│   └── Container/
+│         ├── Container.tsx
+│         └── Container.module.scss
+│
+├── graphql/
+│   ├── client.ts
+│   └── queries.ts
+│
+├── shared/
+│   ├── styles/
+│   └── types/
+│
+├── store/
+│   ├── store.ts
+│   └── slices/
+│         └── Slice.ts
+│
+└── main.tsx
+```
+
 # Technologies
 
 - React
